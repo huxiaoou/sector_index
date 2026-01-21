@@ -1,0 +1,72 @@
+dbs:
+  public: meta_data
+  user: huxiaoou_private
+path_calendar: /root/workspace/Data/huxo/input/calendar/cne_calendar.csv
+
+index_base:
+  date: "20171229"
+  value: 100.00
+
+classification:
+  LEVEL1:
+    CA00: # must be unique in the project
+      BLK:
+    CA01:
+      AUG:
+        - AU9999_SHFE
+        - AG9999_SHFE
+      MTL:
+        - CU9999_SHFE
+        - AL9999_SHFE
+        - PB9999_SHFE
+        - ZN9999_SHFE
+        - NI9999_SHFE
+        - SN9999_SHFE
+        - SS9999_SHFE
+        - AO9999_SHFE
+      OIL:
+        - A9999_DCE
+        - B9999_DCE
+        - M9999_DCE
+        - P9999_DCE
+        - Y9999_DCE
+        - OI9999_CZCE
+        - RM9999_CZCE
+      CHM:
+        - RU9999_SHFE
+        - BR9999_SHFE
+        - BU9999_SHFE
+        - FU9999_SHFE
+        - L9999_DCE
+        - V9999_DCE
+        - EB9999_DCE
+        - EG9999_DCE
+        - PP9999_DCE
+        - PG9999_DCE
+        - MA9999_CZCE
+        - TA9999_CZCE
+      BLK:
+        - RB9999_SHFE
+        - HC9999_SHFE
+        - I9999_DCE
+        - J9999_DCE
+        - JM9999_DCE
+        - SF9999_CZCE
+        - SM9999_CZCE
+        - ZC9999_CZCE
+        - FG9999_CZCE
+        - SA9999_CZCE
+        - UR9999_CZCE
+      AGR:
+        - AP9999_CZCE
+        - CF9999_CZCE
+        - SR9999_CZCE
+        - CY9999_CZCE
+        - CJ9999_CZCE
+        - PK9999_CZCE
+        - JD9999_DCE
+        - LH9999_DCE
+        - C9999_DCE
+        - CS9999_DCE
+  LEVEL2:
+    CB00:
