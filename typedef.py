@@ -47,7 +47,7 @@ class CSectorClassification:
             res.extend(instruments)
         return res
 
-    def save_table(self, db_name: str) -> CDataDescriptor:
+    def get_save_table(self, db_name: str) -> CDataDescriptor:
         return CDataDescriptor(
             db_name=db_name,
             table_name=f"sector_{self.level}_{self.name}",
