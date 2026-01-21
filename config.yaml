@@ -8,10 +8,10 @@ index_base:
   value: 100.00
 
 classification:
-  LEVEL1:
-    CA00: # must be unique in the project
+  lvl1:
+    ca00: # must be unique in the project
       BLK:
-    CA01:
+    ca01:
       AUG:
         - AU9999_SHFE
         - AG9999_SHFE
@@ -68,5 +68,24 @@ classification:
         - LH9999_DCE
         - C9999_DCE
         - CS9999_DCE
-  LEVEL2:
-    CB00:
+  lvl2:
+    cb00:
+
+src_tables:
+  pv:
+    db_name: "meta_data"
+    table_name: "future_bar_1day_aft"
+    fields:
+      - "turnover"
+      - "pre_close_ret"
+    lag: 20
+    data_view_type: data3d
+  pv1m:
+    db_name: "meta_data"
+    table_name: "future_bar_1min"
+    fields:
+      - "turnover"
+      - "pre_close_ret"
+      - "trade_day"
+    lag: 20
+    data_view_type: data3d
