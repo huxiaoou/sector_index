@@ -44,15 +44,15 @@ class _CSectorIndex(SignalStrategy):
 
 class CSectorIndexD(_CSectorIndex):
     def init(self):
-        self.add_clock(milestones="15:00:00")
         self.subscribe_data("md", self.data_desc_md.to_args())
+        self.add_clock(milestones="15:00:00")
         self.create_factor_table(["ret", "close"])
 
 
 class CSectorIndexM(_CSectorIndex):
     def init(self):
-        self.add_scheduler(freq="1min", handler=self.on_clock)
         self.subscribe_data("md", self.data_desc_md.to_args())
+        self.add_scheduler(with_data="md", handler=self.on_clock, offset="1min")
         self.create_factor_table(["ret", "close"])
 
 

@@ -7,6 +7,13 @@ from qtools_sxzq.qdata import CDataDescriptor
 from typedef import CCfgIndexBase
 
 
+def get_span(bgn_date: str, end_date: str, calendar: CCalendar) -> tuple[str, str]:
+    prev_date = calendar.get_next_date(bgn_date, shift=-1)
+    bgn_str = f"{prev_date} 21:00:00"
+    end_str = f"{end_date} 21:00:00"
+    return bgn_str, end_str
+
+
 def get_init_price(
     bgn_date: str,
     calendar: CCalendar,
@@ -31,5 +38,5 @@ def get_init_price(
                 f"[{SFR('WRN')}] Init prices are not found @{SFY(prev_date)} for bgn={SFY(bgn_date)}, init_price is:\n{init_price}"
             )
             raise ValueError
-    print(f"Init price @ {SFG(prev_date)} for bgn={SFG(bgn_date)} is:\n {init_price}")
+    print(f"Init price @ {SFG(prev_date)} for bgn={SFG(bgn_date)} is:\n{init_price}")
     return init_price

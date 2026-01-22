@@ -25,7 +25,7 @@ if __name__ == "__main__":
     import sys
     from config import cfg, data_desc_pv, data_desc_pv1m
     from solutions.calculators import main_process_sector_index
-    from solutions.misc import get_init_price
+    from solutions.misc import get_init_price, get_span
 
     calendar = CCalendar(calendar_path=cfg.path_calendar)
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     if not validate_args(bgn, end, calendar=calendar, base_date=cfg.index_base.date):
         sys.exit(-1)
 
-    span: tuple[str, str] = (bgn, end)
+    span: tuple[str, str] = get_span(bgn, end, calendar=calendar)
     sector_classification = cfg.classifications[args.command]
     data_desc_md = data_desc_pv if args.freq == "d" else data_desc_pv1m
     data_desc_md.codes = sector_classification.codes
