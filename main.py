@@ -5,7 +5,7 @@ from qtools_sxzq.qcalendar import CCalendar
 def parse_args(names: list[str]):
     arg_parser = argparse.ArgumentParser(description="This project is designed to create preprocess data by instrument")
     arg_parser.add_argument("command", type=str, choices=names)
-    arg_parser.add_argument("--level", type=str, choices=("lvl1", "lvl2"), required=True)
+    arg_parser.add_argument("--freq", type=str, choices=("d", "m"), required=True)
     arg_parser.add_argument("--bgn", type=str, required=True, help="begin date, format = 'YYYYMMDD'")
     arg_parser.add_argument("--end", type=str, default=None, help="end date, format = 'YYYYMMDD'")
     return arg_parser.parse_args()
@@ -36,10 +36,9 @@ if __name__ == "__main__":
 
     span: tuple[str, str] = (bgn, end)
     sector_classification = cfg.classifications[args.command]
-    data_desc_pv.codes = sector_classification.codes
-    data_desc_pv1m.codes = sector_classification.codes
-    data_desc_sec_idx = sector_classification.get_save_data_desc(cfg.dbs.user, args.level)
-
+    data_desc_md = data_desc_pv if args.freq == "d" else data_desc_pv1m
+    data_desc_md.codes = sector_classification.codes
+    data_desc_sec_idx = sector_classification.get_save_data_desc(cfg.dbs.user, args.freq)
     init_price = get_init_price(
         bgn_date=bgn,
         calendar=calendar,
@@ -48,9 +47,9 @@ if __name__ == "__main__":
     )
     main_process_sector_index(
         span=span,
-        data_desc_pv=data_desc_pv,
+        data_desc_md=data_desc_md,
         data_desc_sec_idx=data_desc_sec_idx,
         instru_map=sector_classification.instru_map,
         init_price=init_price,
-        lvl=args.level,
+        freq=args.freq,
     )

@@ -15,7 +15,7 @@ class CCfgIndexBase:
     value: float
 
 
-TLevel = Literal["lvl1", "lvl2", None]
+TFreq = Literal["d", "m", None]
 TName = str
 TSector = str
 TInstrument = str
@@ -47,10 +47,10 @@ class CSectorClassification:
             res.extend(instruments)
         return res
 
-    def get_save_data_desc(self, db_name: str, level: TLevel) -> CDataDescriptor:
+    def get_save_data_desc(self, db_name: str, freq: TFreq) -> CDataDescriptor:
         return CDataDescriptor(
             db_name=db_name,
-            table_name=f"sector_{self.name}_{level}",
+            table_name=f"sector_{self.name}_{freq}",
             codes=self.sectors,
             fields=["ret", "close"],
             lag=20,

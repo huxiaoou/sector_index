@@ -4,7 +4,7 @@ from transmatrix import SignalMatrix
 from transmatrix.strategy import SignalStrategy
 from transmatrix.data_api import create_factor_table
 from qtools_sxzq.qdata import CDataDescriptor
-from typedef import TInstruMap, TLevel
+from typedef import TInstruMap, TFreq
 
 
 def cal_wgt_ret(ret: pd.Series, wgt: pd.Series) -> float:
@@ -14,18 +14,18 @@ def cal_wgt_ret(ret: pd.Series, wgt: pd.Series) -> float:
 
 
 class _CSectorIndex(SignalStrategy):
-    def __init__(self, data_desc_pv: CDataDescriptor, instru_map: TInstruMap, init_price: pd.Series):
-        self.data_desc_pv: CDataDescriptor
+    def __init__(self, data_desc_md: CDataDescriptor, instru_map: TInstruMap, init_price: pd.Series):
+        self.data_desc_md: CDataDescriptor
         self.instru_map: TInstruMap
         self.init_price: pd.Series
-        super().__init__(data_desc_pv, instru_map, init_price)
+        super().__init__(data_desc_md, instru_map, init_price)
 
     def init(self):
         raise NotImplementedError
 
     def on_clock(self):
-        amt = self.pv.get_dict("turnover")
-        ret = self.pv.get_dict("pre_close_ret")
+        amt = self.md.get_dict("turnover")
+        ret = self.md.get_dict("pre_close_ret")
         mkt_data = pd.DataFrame(
             {
                 "amt": amt,
@@ -45,24 +45,24 @@ class _CSectorIndex(SignalStrategy):
 class CSectorIndexD(_CSectorIndex):
     def init(self):
         self.add_clock(milestones="15:00:00")
-        self.subscribe_data("pv", self.data_desc_pv.to_args())
+        self.subscribe_data("md", self.data_desc_md.to_args())
         self.create_factor_table(["ret", "close"])
 
 
 class CSectorIndexM(_CSectorIndex):
     def init(self):
         self.add_scheduler(freq="1min", handler=self.on_clock)
-        self.subscribe_data("pv", self.data_desc_pv.to_args())
+        self.subscribe_data("md", self.data_desc_md.to_args())
         self.create_factor_table(["ret", "close"])
 
 
 def main_process_sector_index(
     span: tuple[str, str],
-    data_desc_pv: CDataDescriptor,
+    data_desc_md: CDataDescriptor,
     data_desc_sec_idx: CDataDescriptor,
     instru_map: TInstruMap,
     init_price: pd.Series,
-    lvl: TLevel,
+    freq: TFreq,
 ):
     cfg = {
         "span": span,
@@ -73,20 +73,20 @@ def main_process_sector_index(
 
     # --- run
     mat = SignalMatrix(cfg)
-    if lvl == "lvl1":
+    if freq == "d":
         sector_index = CSectorIndexD(
-            data_desc_pv=data_desc_pv,
+            data_desc_md=data_desc_md,
             instru_map=instru_map,
             init_price=init_price,
         )
-    elif lvl == "lvl2":
+    elif freq == "m":
         sector_index = CSectorIndexM(
-            data_desc_pv=data_desc_pv,
+            data_desc_md=data_desc_md,
             instru_map=instru_map,
             init_price=init_price,
         )
     else:
-        raise ValueError(f"[ERR] Invalid level = {lvl}")
+        raise ValueError(f"[ERR] Invalid level = {freq}")
     sector_index.set_name("sector_index")
     mat.add_component(sector_index)
     mat.init()
