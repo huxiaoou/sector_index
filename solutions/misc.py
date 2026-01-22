@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 from qtools_sxzq.qwidgets import SFG, SFR, SFY
 from qtools_sxzq.qcalendar import CCalendar
@@ -22,7 +23,7 @@ def get_init_price(
             names=["code", "`close`"],
             conds=f"datetime == '{prev_date[0:4]}-{prev_date[4:6]}-{prev_date[6:8]} 15:00:00'",
         )
-        init_price: pd.Series = pd.Series()
+        init_price: pd.Series = pd.Series(dtype=np.float64)
         if not buff_data.empty:
             init_price = buff_data.set_index("code").loc[data_desc_sec_idx.codes, "close"]  # type:ignore
         if len(init_price) < len(data_desc_sec_idx.codes):

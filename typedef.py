@@ -15,18 +15,18 @@ class CCfgIndexBase:
     value: float
 
 
-TLevel = Literal["LEVEL1", "LEVEL2"]
+TLevel = Literal["lvl1", "lvl2", None]
 TName = str
 TSector = str
 TInstrument = str
+TClsData = dict[TSector, list[TInstrument]]
 TInstruMap = dict[TInstrument, TSector]
 
 
 @dataclass(frozen=True)
 class CSectorClassification:
-    level: TLevel
-    name: TName  # ["CA00", "CA01", "CB00", ...]
-    data: dict[TSector, list[TInstrument]]
+    name: TName  # ["c0", "c1", ...]
+    data: TClsData
 
     @property
     def instru_map(self) -> TInstruMap:
@@ -47,10 +47,10 @@ class CSectorClassification:
             res.extend(instruments)
         return res
 
-    def get_save_data_desc(self, db_name: str) -> CDataDescriptor:
+    def get_save_data_desc(self, db_name: str, level: TLevel) -> CDataDescriptor:
         return CDataDescriptor(
             db_name=db_name,
-            table_name=f"sector_{self.level}_{self.name}",
+            table_name=f"sector_{self.name}_{level}",
             codes=self.sectors,
             fields=["ret", "close"],
             lag=20,

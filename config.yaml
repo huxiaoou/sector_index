@@ -8,68 +8,144 @@ index_base:
   value: 100.00
 
 classification:
-  lvl1:
-    ca00: # must be unique in the project
-      BLK:
-    ca01:
-      AUG:
-        - AU9999_SHFE
-        - AG9999_SHFE
-      MTL:
-        - CU9999_SHFE
-        - AL9999_SHFE
-        - PB9999_SHFE
-        - ZN9999_SHFE
-        - NI9999_SHFE
-        - SN9999_SHFE
-        - SS9999_SHFE
-        - AO9999_SHFE
-      OIL:
-        - A9999_DCE
-        - B9999_DCE
-        - M9999_DCE
-        - P9999_DCE
-        - Y9999_DCE
-        - OI9999_CZCE
-        - RM9999_CZCE
-      CHM:
-        - RU9999_SHFE
-        - BR9999_SHFE
-        - BU9999_SHFE
-        - FU9999_SHFE
-        - L9999_DCE
-        - V9999_DCE
-        - EB9999_DCE
-        - EG9999_DCE
-        - PP9999_DCE
-        - PG9999_DCE
-        - MA9999_CZCE
-        - TA9999_CZCE
-      BLK:
-        - RB9999_SHFE
-        - HC9999_SHFE
-        - I9999_DCE
-        - J9999_DCE
-        - JM9999_DCE
-        - SF9999_CZCE
-        - SM9999_CZCE
-        - ZC9999_CZCE
-        - FG9999_CZCE
-        - SA9999_CZCE
-        - UR9999_CZCE
-      AGR:
-        - AP9999_CZCE
-        - CF9999_CZCE
-        - SR9999_CZCE
-        - CY9999_CZCE
-        - CJ9999_CZCE
-        - PK9999_CZCE
-        - JD9999_DCE
-        - LH9999_DCE
-        - C9999_DCE
-        - CS9999_DCE
-  lvl2:
-    cb00:
+  c0: # must be unique in the project
+    BLK:
+      - RB9999_SHFE
+      - HC9999_SHFE
+      - I9999_DCE
+      - J9999_DCE
+      - JM9999_DCE
+      - ZC9999_CZCE
+      - SM9999_CZCE
+      - SF9999_CZCE
+    MTL:
+      - CU9999_SHFE
+      - BC9999_INE
+      - AL9999_SHFE
+      - AO9999_SHFE
+      - AD9999_SHFE
+      - ZN9999_SHFE
+      - PB9999_SHFE
+      - SN9999_SHFE
+      - LC9999_GFEX
+      - SI9999_GFEX
+      - PS9999_GFEX
+      - NI9999_SHFE
+      - SS9999_SHFE
+    PMT:
+      - AU9999_SHFE
+      - AG9999_SHFE
+      - PD9999_GFEX
+      - PT9999_GFEX
+    ENG:
+      - SC9999_INE
+      - LU9999_INE
+      - FU9999_SHFE
+      - BU9999_SHFE
+      - PG9999_DCE
+      - PX9999_CZCE
+      - TA9999_CZCE
+      - EG9999_DCE
+      - PR9999_CZCE
+      - PF9999_CZCE
+      - EB9999_DCE
+      - BZ9999_DCE
+      - L9999_DCE
+      - PP9999_DCE
+      - PL9999_CZCE
+      - UR9999_CZCE
+      - MA9999_CZCE
+      - SH9999_CZCE
+      - RU9999_SHFE
+      - BR9999_SHFE
+      - NR9999_INE
+      - FG9999_CZCE
+      - SA9999_CZCE
+      - V9999_DCE
+    OIP:
+      - SP9999_SHFE
+      - LG9999_DCE
+      - FB9999_DCE
+      - OP9999_SHFE
+    AGR:
+      - LH9999_DCE
+      - JD9999_DCE
+      - PK9999_CZCE
+      - CJ9999_CZCE
+      - AP9999_CZCE
+      - C9999_DCE
+      - CS9999_DCE
+      - RR9999_DCE
+      - A9999_DCE
+      - B9999_DCE
+      - Y9999_DCE
+      - M9999_DCE
+      - RS9999_CZCE
+      - OI9999_CZCE
+      - RM9999_CZCE
+      - P9999_DCE
+      - CF9999_CZCE
+      - CY9999_CZCE
+      - SR9999_CZCE
+    FRG:
+      - EC9999_INE
+  c1:
+    AUG:
+      - AU9999_SHFE
+      - AG9999_SHFE
+    MTL:
+      - CU9999_SHFE
+      - AL9999_SHFE
+      - PB9999_SHFE
+      - ZN9999_SHFE
+      - NI9999_SHFE
+      - SN9999_SHFE
+      - SS9999_SHFE
+      - AO9999_SHFE
+    OIL:
+      - A9999_DCE
+      - B9999_DCE
+      - M9999_DCE
+      - P9999_DCE
+      - Y9999_DCE
+      - OI9999_CZCE
+      - RM9999_CZCE
+    CHM:
+      - RU9999_SHFE
+      - BR9999_SHFE
+      - BU9999_SHFE
+      - FU9999_SHFE
+      - L9999_DCE
+      - V9999_DCE
+      - EB9999_DCE
+      - EG9999_DCE
+      - PP9999_DCE
+      - PG9999_DCE
+      - MA9999_CZCE
+      - TA9999_CZCE
+    BLK:
+      - RB9999_SHFE
+      - HC9999_SHFE
+      - I9999_DCE
+      - J9999_DCE
+      - JM9999_DCE
+      - SF9999_CZCE
+      - SM9999_CZCE
+      - ZC9999_CZCE
+      - FG9999_CZCE
+      - SA9999_CZCE
+      - UR9999_CZCE
+    AGR:
+      - AP9999_CZCE
+      - CF9999_CZCE
+      - SR9999_CZCE
+      - CY9999_CZCE
+      - CJ9999_CZCE
+      - PK9999_CZCE
+      - JD9999_DCE
+      - LH9999_DCE
+      - C9999_DCE
+      - CS9999_DCE
 
 src_tables:
   pv:
