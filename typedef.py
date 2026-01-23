@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, Union
 from qtools_sxzq.qdata import CDataDescriptor
 
 
@@ -20,20 +20,25 @@ TName = str
 TSector = str
 TInstrument = str
 TClsData = dict[TSector, list[TInstrument]]
-TInstruMap = dict[TInstrument, TSector]
+TInstruMap = Union[dict[TInstrument, TSector], dict[TSector, dict[TInstrument, int]]]
 
 
 @dataclass(frozen=True)
 class CSectorClassification:
     name: TName  # ["c0", "c1", ...]
+    overlapping: bool
     data: TClsData
 
     @property
     def instru_map(self) -> TInstruMap:
         res: TInstruMap = {}
-        for sector, instruments in self.data.items():
-            for instrument in instruments:
-                res[instrument] = sector
+        if self.overlapping:
+            for sector, instruments in self.data.items():
+                res[sector] = {ins: 1 for ins in instruments}
+        else:
+            for sector, instruments in self.data.items():
+                for instrument in instruments:
+                    res[instrument] = sector
         return res
 
     @property

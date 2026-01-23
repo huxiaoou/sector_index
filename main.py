@@ -35,10 +35,10 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     span: tuple[str, str] = get_span(bgn, end, calendar=calendar)
-    sector_classification = cfg.classifications[args.command]
+    clsf = cfg.classifications[args.command]
     data_desc_md = data_desc_pv if args.freq == "d" else data_desc_pv1m
-    data_desc_md.codes = sector_classification.codes
-    data_desc_sec_idx = sector_classification.get_save_data_desc(cfg.dbs.user, args.freq)
+    data_desc_md.codes = clsf.codes
+    data_desc_sec_idx = clsf.get_save_data_desc(cfg.dbs.user, args.freq)
     init_price = get_init_price(
         bgn_date=bgn,
         calendar=calendar,
@@ -49,7 +49,7 @@ if __name__ == "__main__":
         span=span,
         data_desc_md=data_desc_md,
         data_desc_sec_idx=data_desc_sec_idx,
-        instru_map=sector_classification.instru_map,
+        clsf=clsf,
         init_price=init_price,
         freq=args.freq,
     )

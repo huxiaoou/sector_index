@@ -4,7 +4,7 @@ from transmatrix import SignalMatrix
 from transmatrix.strategy import SignalStrategy
 from transmatrix.data_api import create_factor_table
 from qtools_sxzq.qdata import CDataDescriptor
-from typedef import TInstruMap, TFreq
+from typedef import TFreq, CSectorClassification
 
 
 def cal_wgt_ret(ret: pd.Series, wgt: pd.Series) -> float:
@@ -14,11 +14,13 @@ def cal_wgt_ret(ret: pd.Series, wgt: pd.Series) -> float:
 
 
 class _CSectorIndex(SignalStrategy):
-    def __init__(self, data_desc_md: CDataDescriptor, instru_map: TInstruMap, init_price: pd.Series):
+    def __init__(self, data_desc_md: CDataDescriptor, clsf: CSectorClassification, init_price: pd.Series):
         self.data_desc_md: CDataDescriptor
-        self.instru_map: TInstruMap
+        self.clsf: CSectorClassification
         self.init_price: pd.Series
-        super().__init__(data_desc_md, instru_map, init_price)
+        super().__init__(data_desc_md, clsf, init_price)
+        if clsf.overlapping:
+            self.sec_df = pd.DataFrame(self.clsf.instru_map).fillna(0)
 
     def init(self):
         raise NotImplementedError
@@ -32,11 +34,17 @@ class _CSectorIndex(SignalStrategy):
                 "ret": ret,
             }
         ).fillna(0)
-        mkt_data["sector"] = mkt_data.index.map(lambda z: self.instru_map.get(z))
         mkt_data["rel_wgt"] = np.sqrt(mkt_data["amt"])
-        selected_data = mkt_data.dropna(axis=0, subset=["sector"], how="any")
-        r = selected_data.groupby(by="sector").apply(lambda z: cal_wgt_ret(z["ret"], z["rel_wgt"]))
-        r_sorted = r[self.codes]
+        if self.clsf.overlapping:
+            mkt_data = mkt_data.merge(right=self.sec_df, left_index=True, right_index=True, how="left")
+            r_sorted = pd.Series(
+                {sector: cal_wgt_ret(mkt_data["ret"], mkt_data["rel_wgt"] * mkt_data[sector]) for sector in self.codes}
+            )
+        else:
+            mkt_data["sector"] = mkt_data.index.map(lambda z: self.clsf.instru_map.get(z))
+            selected_data = mkt_data.dropna(axis=0, subset=["sector"], how="any")
+            r = selected_data.groupby(by="sector").apply(lambda z: cal_wgt_ret(z["ret"], z["rel_wgt"]))
+            r_sorted: pd.Series = r[self.codes]
         self.init_price *= 1 + r_sorted
         self.update_factor("ret", r_sorted.to_numpy())
         self.update_factor("close", self.init_price.to_numpy())
@@ -60,7 +68,7 @@ def main_process_sector_index(
     span: tuple[str, str],
     data_desc_md: CDataDescriptor,
     data_desc_sec_idx: CDataDescriptor,
-    instru_map: TInstruMap,
+    clsf: CSectorClassification,
     init_price: pd.Series,
     freq: TFreq,
 ):
@@ -76,13 +84,13 @@ def main_process_sector_index(
     if freq == "d":
         sector_index = CSectorIndexD(
             data_desc_md=data_desc_md,
-            instru_map=instru_map,
+            clsf=clsf,
             init_price=init_price,
         )
     elif freq == "m":
         sector_index = CSectorIndexM(
             data_desc_md=data_desc_md,
-            instru_map=instru_map,
+            clsf=clsf,
             init_price=init_price,
         )
     else:

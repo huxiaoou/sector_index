@@ -8,10 +8,14 @@ with open("config.yaml", "r") as f:
     _config = yaml.safe_load(f)
 
 d: TClassifications = {}
-for name, name_data in _config["classification"].items():
-    name: TName
-    name_data: TClsData
-    d[name] = CSectorClassification(name=name, data=name_data)
+for cls_name, cls_data in _config["classification"].items():
+    cls_name: TName
+    cls_data: dict
+    d[cls_name] = CSectorClassification(
+        name=cls_name,
+        overlapping=cls_data["overlapping"],
+        data=cls_data["data"],
+    )
 
 cfg = CCfg(
     dbs=CCfgDbs(**_config["dbs"]),
