@@ -10,12 +10,8 @@ with open("config.yaml", "r") as f:
 d: TClassifications = {}
 for cls_name, cls_data in _config["classification"].items():
     cls_name: TName
-    cls_data: dict
-    d[cls_name] = CSectorClassification(
-        name=cls_name,
-        overlapping=cls_data["overlapping"],
-        data=cls_data["data"],
-    )
+    cls_data: TClsData
+    d[cls_name] = CSectorClassification(name=cls_name, data=cls_data)
 
 cfg = CCfg(
     dbs=CCfgDbs(**_config["dbs"]),
