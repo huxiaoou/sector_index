@@ -7,19 +7,13 @@ from qtools_sxzq.qdata import CDataDescriptor
 from typedef import TFreq, CSectorClassification
 
 
-def cal_wgt_ret(ret: pd.Series, wgt: pd.Series) -> float:
-    if (s := wgt.sum()) > 0:
-        return ret @ wgt / s
-    return 0
-
-
 class _CSectorIndex(SignalStrategy):
     def __init__(self, data_desc_md: CDataDescriptor, clsf: CSectorClassification, init_price: pd.Series):
         self.data_desc_md: CDataDescriptor
         self.clsf: CSectorClassification
         self.init_price: pd.Series
         super().__init__(data_desc_md, clsf, init_price)
-        self.sec_df = pd.DataFrame(self.clsf.instru_map).fillna(0)
+        self.sec_df = pd.DataFrame(self.clsf.instru_map)[init_price.index].fillna(0)
 
     def init(self):
         raise NotImplementedError
@@ -34,10 +28,10 @@ class _CSectorIndex(SignalStrategy):
             }
         ).fillna(0)
         mkt_data["rel_wgt"] = np.sqrt(mkt_data["amt"])
-        mkt_data = mkt_data.merge(right=self.sec_df, left_index=True, right_index=True, how="left")
-        r_sorted = pd.Series(
-            {sector: cal_wgt_ret(mkt_data["ret"], mkt_data["rel_wgt"] * mkt_data[sector]) for sector in self.codes}
-        )
+        raw_wgt = self.sec_df.mul(mkt_data["rel_wgt"], axis=0)
+        wgt_sum = raw_wgt.sum(axis=0)
+        nrm_wgt = (raw_wgt / wgt_sum).fillna(0)
+        r_sorted = mkt_data["ret"] @ nrm_wgt
         self.init_price *= 1 + r_sorted
         self.update_factor("ret", r_sorted.to_numpy())
         self.update_factor("close", self.init_price.to_numpy())
