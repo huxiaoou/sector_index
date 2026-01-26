@@ -28,6 +28,9 @@ class CSectorClassification:
     name: TName  # ["c0", "c1", ...]
     data: TClsData
 
+    def comb_name(self, freq: TFreq) -> str:
+        return f"{self.name}-{freq}"
+
     @property
     def instru_map(self) -> TInstruMap:
         res: TInstruMap = {}

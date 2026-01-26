@@ -23,9 +23,14 @@ def validate_args(bgn_date: str, end_date: str, calendar: CCalendar, base_date: 
 
 if __name__ == "__main__":
     import sys
+    from logbook import Logger, StreamHandler
+    from qtools_sxzq.qwidgets import SFG
     from config import cfg, data_desc_pv, data_desc_pv1m
     from solutions.calculators import main_process_sector_index
     from solutions.misc import get_init_price, get_span
+
+    StreamHandler(sys.stdout).push_application()
+    logger = Logger(f"{SFG('SZST')}")
 
     calendar = CCalendar(calendar_path=cfg.path_calendar)
 
@@ -39,12 +44,16 @@ if __name__ == "__main__":
     data_desc_md = data_desc_pv if args.freq == "d" else data_desc_pv1m
     data_desc_md.codes = clsf.codes
     data_desc_sec_idx = clsf.get_save_data_desc(cfg.dbs.user, args.freq)
+
+    logger.info(f"Loading init price for {SFG(clsf.comb_name(args.freq))}")
     init_price = get_init_price(
         bgn_date=bgn,
         calendar=calendar,
         index_base=cfg.index_base,
         data_desc_sec_idx=data_desc_sec_idx,
     )
+
+    logger.info(f"Calculation for {SFG(clsf.comb_name(args.freq))}")
     main_process_sector_index(
         span=span,
         data_desc_md=data_desc_md,
@@ -53,3 +62,4 @@ if __name__ == "__main__":
         init_price=init_price,
         freq=args.freq,
     )
+    logger.info(f"{SFG(clsf.comb_name(args.freq))} finishes")
