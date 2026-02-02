@@ -41,8 +41,9 @@ if __name__ == "__main__":
 
     span: tuple[str, str] = get_span(bgn, end, calendar=calendar)
     clsf = cfg.classifications[args.command]
+    data_desc_pv.codes = clsf.codes
+    data_desc_pv1m.codes = clsf.codes
     data_desc_md = data_desc_pv if args.freq == "d" else data_desc_pv1m
-    data_desc_md.codes = clsf.codes
     data_desc_sec_idx = clsf.get_save_data_desc(cfg.dbs.user, args.freq)
 
     logger.info(f"Loading init price for {SFG(clsf.comb_name(args.freq))}")
