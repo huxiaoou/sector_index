@@ -11,5 +11,6 @@ else
 fi
 echo "append_date = $append_date"
 
-python main.py c0 --bgn $append_date --freq d
-python main.py c0 --bgn $append_date --freq m
+cls="c2"
+python main.py $cls --bgn $append_date --freq d
+python main.py $cls --bgn $append_date --freq m

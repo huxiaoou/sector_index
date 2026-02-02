@@ -15,8 +15,8 @@ bgn_date="20180102"
 
 echo "[$(date +'%Y-%m-%d %H:%M:%S')] try removing existing data"
 
-rm_tqdb huxiaoou_private --table sector_c0_d
-python main.py c0 --bgn $bgn_date --end $end_date --freq d
-
-rm_tqdb huxiaoou_private --table sector_c0_m
-python main.py c0 --bgn $bgn_date --end $end_date --freq m
+cls="c2"
+rm_tqdb huxiaoou_private --table sector_${cls}_d
+python main.py $cls --bgn $bgn_date --end $end_date --freq d
+rm_tqdb huxiaoou_private --table sector_${cls}_m
+python main.py $cls --bgn $bgn_date --end $end_date --freq m
