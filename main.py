@@ -27,7 +27,7 @@ if __name__ == "__main__":
     from qtools_sxzq.qwidgets import SFG
     from config import cfg, data_desc_pv, data_desc_pv1m
     from solutions.calculators import main_process_sector_index
-    from solutions.misc import get_init_price, get_span
+    from solutions.misc import get_init_price, get_init_amt, get_span
 
     StreamHandler(sys.stdout).push_application()
     logger = Logger(f"{SFG('SZST')}")
@@ -52,14 +52,21 @@ if __name__ == "__main__":
         index_base=cfg.index_base,
         data_desc_sec_idx=data_desc_sec_idx,
     )
+    init_amt = get_init_amt(
+        bgn_date=bgn,
+        calendar=calendar,
+        data_desc_pv=data_desc_pv,
+    )
 
     logger.info(f"Calculation for {SFG(clsf.comb_name(args.freq))}")
     main_process_sector_index(
         span=span,
         data_desc_md=data_desc_md,
+        data_desc_amt=data_desc_pv,
         data_desc_sec_idx=data_desc_sec_idx,
         clsf=clsf,
         init_price=init_price,
+        init_amt=init_amt,
         freq=args.freq,
     )
     logger.info(f"{SFG(clsf.comb_name(args.freq))} finishes")

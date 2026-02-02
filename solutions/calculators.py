@@ -8,26 +8,36 @@ from typedef import TFreq, CSectorClassification
 
 
 class _CSectorIndex(SignalStrategy):
-    def __init__(self, data_desc_md: CDataDescriptor, clsf: CSectorClassification, init_price: pd.Series):
+    def __init__(
+        self,
+        data_desc_md: CDataDescriptor,
+        data_desc_amt: CDataDescriptor,
+        clsf: CSectorClassification,
+        init_price: pd.Series,
+        init_amt: pd.Series,
+    ):
         self.data_desc_md: CDataDescriptor
+        self.data_desc_amt: CDataDescriptor
         self.clsf: CSectorClassification
         self.init_price: pd.Series
-        super().__init__(data_desc_md, clsf, init_price)
+        self.init_amt: pd.Series
+        super().__init__(data_desc_md, data_desc_amt, clsf, init_price, init_amt)
         self.sec_df = pd.DataFrame(self.clsf.instru_map)[init_price.index].fillna(0)
+        self.weight = np.sqrt(init_amt)
 
     def init(self):
-        raise NotImplementedError
+        self.subscribe_data("md", self.data_desc_md.to_args())
+        self.subscribe_data("amt", self.data_desc_amt.to_args())
+        self.add_scheduler(milestones=["16:00:00"], handler=self.update_weight)
+        self.create_factor_table(["ret", "close"])
+
+    def update_weight(self):
+        amt = self.amt.get_dict("turnover")
+        self.weight = np.sqrt(pd.Series(amt))
 
     def on_clock(self):
-        amt = self.md.get_dict("turnover")
         ret = self.md.get_dict("pre_close_ret")
-        mkt_data = pd.DataFrame(
-            {
-                "amt": amt,
-                "ret": ret,
-            }
-        ).fillna(0)
-        mkt_data["rel_wgt"] = np.sqrt(mkt_data["amt"])
+        mkt_data = pd.DataFrame({"ret": ret, "rel_wgt": self.weight}).fillna(0)
         raw_wgt = self.sec_df.mul(mkt_data["rel_wgt"], axis=0)
         wgt_sum = raw_wgt.sum(axis=0)
         nrm_wgt = (raw_wgt / wgt_sum).fillna(0)
@@ -39,24 +49,24 @@ class _CSectorIndex(SignalStrategy):
 
 class CSectorIndexD(_CSectorIndex):
     def init(self):
-        self.subscribe_data("md", self.data_desc_md.to_args())
+        super().init()
         self.add_clock(milestones="15:00:00")
-        self.create_factor_table(["ret", "close"])
 
 
 class CSectorIndexM(_CSectorIndex):
     def init(self):
-        self.subscribe_data("md", self.data_desc_md.to_args())
+        super().init()
         self.add_scheduler(with_data="md", handler=self.on_clock, offset="1min")
-        self.create_factor_table(["ret", "close"])
 
 
 def main_process_sector_index(
     span: tuple[str, str],
     data_desc_md: CDataDescriptor,
+    data_desc_amt: CDataDescriptor,
     data_desc_sec_idx: CDataDescriptor,
     clsf: CSectorClassification,
     init_price: pd.Series,
+    init_amt: pd.Series,
     freq: TFreq,
 ):
     cfg = {
@@ -71,14 +81,18 @@ def main_process_sector_index(
     if freq == "d":
         sector_index = CSectorIndexD(
             data_desc_md=data_desc_md,
+            data_desc_amt=data_desc_amt,
             clsf=clsf,
             init_price=init_price,
+            init_amt=init_amt,
         )
     elif freq == "m":
         sector_index = CSectorIndexM(
             data_desc_md=data_desc_md,
+            data_desc_amt=data_desc_amt,
             clsf=clsf,
             init_price=init_price,
+            init_amt=init_amt,
         )
     else:
         raise ValueError(f"[ERR] Invalid level = {freq}")

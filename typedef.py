@@ -46,10 +46,10 @@ class CSectorClassification:
 
     @property
     def codes(self) -> list[str]:
-        res: list[str] = []
+        res: set[str] = set()
         for instruments in self.data.values():
-            res.extend(instruments)
-        return res
+            res = res.union(set(instruments))
+        return sorted(list(res))
 
     def get_save_data_desc(self, db_name: str, freq: TFreq) -> CDataDescriptor:
         return CDataDescriptor(

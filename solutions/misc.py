@@ -40,3 +40,20 @@ def get_init_price(
             raise ValueError
     print(f"Init price @ {SFG(prev_date)} for bgn={SFG(bgn_date)} is:\n{init_price}")
     return init_price
+
+
+def get_init_amt(
+    bgn_date: str,
+    calendar: CCalendar,
+    data_desc_pv: CDataDescriptor,
+) -> pd.Series:
+    prev_date = calendar.get_next_date(bgn_date, shift=-1)
+    buff_data: pd.DataFrame = fetch(
+        lib=data_desc_pv.db_name,
+        table=data_desc_pv.table_name,
+        names=["code", "turnover"],
+        conds=f"datetime == '{prev_date[0:4]}-{prev_date[4:6]}-{prev_date[6:8]} 15:00:00'",
+    )
+    raw_data = buff_data.set_index("code")["turnover"].to_dict()
+    init_amt = pd.Series({code: raw_data.get(code, 0) for code in data_desc_pv.codes})
+    return init_amt
