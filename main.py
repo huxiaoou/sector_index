@@ -23,13 +23,14 @@ def validate_args(bgn_date: str, end_date: str, calendar: CCalendar, base_date: 
 
 if __name__ == "__main__":
     import sys
-    from logbook import Logger, StreamHandler
+    from logbook import Logger, StreamHandler, set_datetime_format
     from qtools_sxzq.qwidgets import SFG
     from config import cfg, data_desc_pv, data_desc_pv1m
     from solutions.calculators import main_process_sector_index
     from solutions.misc import get_init_price, get_init_amt, get_span
 
     StreamHandler(sys.stdout).push_application()
+    set_datetime_format("local")
     logger = Logger(f"{SFG('SZST')}")
 
     calendar = CCalendar(calendar_path=cfg.path_calendar)

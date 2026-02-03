@@ -146,7 +146,7 @@ classification:
       - LH9999_DCE
       - C9999_DCE
       - CS9999_DCE
-  c3:
+  c2:
     STL: # 钢铁
       - I9999_DCE # 铁矿石
       - RB9999_SHFE # 螺纹钢
