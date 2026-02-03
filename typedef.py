@@ -29,7 +29,7 @@ class CSectorClassification:
     data: TClsData
 
     def comb_name(self, freq: TFreq) -> str:
-        return f"{self.name}-{freq}"
+        return f"{self.name}_{freq}"
 
     @property
     def instru_map(self) -> TInstruMap:
@@ -54,7 +54,7 @@ class CSectorClassification:
     def get_save_data_desc(self, db_name: str, freq: TFreq) -> CDataDescriptor:
         return CDataDescriptor(
             db_name=db_name,
-            table_name=f"sector_{self.name}_{freq}",
+            table_name=f"sector_{self.comb_name(freq)}",
             codes=self.sectors,
             fields=["ret", "close"],
             lag=20,
