@@ -24,6 +24,8 @@ class _CSectorIndex(SignalStrategy):
         super().__init__(data_desc_md, data_desc_amt, clsf, init_price, init_amt)
         self.sec_df = pd.DataFrame(self.clsf.instru_map)[init_price.index].fillna(0)
         self.weight = np.sqrt(init_amt)
+        self.nrm_wgt = pd.DataFrame()
+        self.update_nrm_wgt()
 
     def init(self):
         self.subscribe_data("md", self.data_desc_md.to_args())
@@ -34,14 +36,16 @@ class _CSectorIndex(SignalStrategy):
     def update_weight(self):
         amt = self.amt.get_dict("turnover")
         self.weight = np.sqrt(pd.Series(amt))
+        self.update_nrm_wgt()
+
+    def update_nrm_wgt(self):
+        raw_wgt = self.sec_df.mul(self.weight, axis=0)
+        wgt_sum = raw_wgt.sum(axis=0)
+        self.nrm_wgt = (raw_wgt / wgt_sum).fillna(0)
 
     def on_clock(self):
         ret = self.md.get_dict("pre_close_ret")
-        mkt_data = pd.DataFrame({"ret": ret, "rel_wgt": self.weight}).fillna(0)
-        raw_wgt = self.sec_df.mul(mkt_data["rel_wgt"], axis=0)
-        wgt_sum = raw_wgt.sum(axis=0)
-        nrm_wgt = (raw_wgt / wgt_sum).fillna(0)
-        r_sorted = mkt_data["ret"] @ nrm_wgt
+        r_sorted = pd.Series(ret).fillna(0) @ self.nrm_wgt
         self.init_price *= 1 + r_sorted
         self.update_factor("ret", r_sorted.to_numpy())
         self.update_factor("close", self.init_price.to_numpy())
