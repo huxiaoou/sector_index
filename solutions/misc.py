@@ -10,7 +10,7 @@ from typedef import CCfgIndexBase
 def get_span(bgn_date: str, end_date: str, calendar: CCalendar) -> tuple[str, str]:
     prev_date = calendar.get_next_date(bgn_date, shift=-1)
     bgn_str = f"{prev_date} 21:00:00"
-    end_str = f"{end_date} 21:00:00"
+    end_str = f"{end_date} 15:00:00"
     return bgn_str, end_str
 
 

@@ -407,5 +407,5 @@ src_tables:
       - "turnover"
       - "pre_close_ret"
       - "trade_day"
-    lag: 1
+    lag: 0
     data_view_type: data3d

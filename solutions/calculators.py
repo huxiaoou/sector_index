@@ -56,7 +56,7 @@ class CSectorIndexD(_CSectorIndex):
 class CSectorIndexM(_CSectorIndex):
     def init(self):
         super().init()
-        self.add_scheduler(with_data="md", handler=self.on_clock, offset="1min")
+        self.add_scheduler(with_data="md", handler=self.on_clock)
 
 
 def main_process_sector_index(
