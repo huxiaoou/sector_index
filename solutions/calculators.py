@@ -82,24 +82,20 @@ def main_process_sector_index(
 
     # --- run
     mat = SignalMatrix(cfg)
+    strategy_type: type[_CSectorIndex]
     if freq == "d":
-        sector_index = CSectorIndexD(
-            data_desc_md=data_desc_md,
-            data_desc_amt=data_desc_amt,
-            clsf=clsf,
-            init_price=init_price,
-            init_amt=init_amt,
-        )
+        strategy_type = CSectorIndexD
     elif freq == "m":
-        sector_index = CSectorIndexM(
-            data_desc_md=data_desc_md,
-            data_desc_amt=data_desc_amt,
-            clsf=clsf,
-            init_price=init_price,
-            init_amt=init_amt,
-        )
+        strategy_type = CSectorIndexM
     else:
         raise ValueError(f"[ERR] Invalid level = {freq}")
+    sector_index = strategy_type(
+        data_desc_md=data_desc_md,
+        data_desc_amt=data_desc_amt,
+        clsf=clsf,
+        init_price=init_price,
+        init_amt=init_amt,
+    )
     sector_index.set_name("sector_index")
     mat.add_component(sector_index)
     mat.init()
