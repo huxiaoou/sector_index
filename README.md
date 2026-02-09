@@ -34,37 +34,13 @@ sector_index/
 ## Requirements
 
 This project depends on:
-- Python 3.10+
+- Python 3.9+
 - qtools_sxzq (internal library for calendar, data access, and utilities)
 - transmatrix (strategy framework and signal processing)
 - pandas
 - numpy
 - pyyaml
 - logbook
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/huxiaoou/sector_index.git
-cd sector_index
-```
-
-2. Install dependencies:
-```bash
-# Note: This project requires access to proprietary libraries
-# Install required packages:
-pip install pandas numpy pyyaml logbook
-
-# You will also need access to:
-# - qtools_sxzq (internal library for calendar, data access, and utilities)
-# - transmatrix (strategy framework and signal processing)
-```
-
-3. Configure the project:
-   - Update `config.yaml` with appropriate database names and paths
-   - Set the calendar path to your trading calendar file
-   - Adjust sector classifications if needed
 
 ## Configuration
 
@@ -143,27 +119,6 @@ This script:
 - Processes both daily and minute frequencies
 - Does not remove existing data
 
-## How It Works
-
-1. **Initialization**: 
-   - Loads previous day's closing prices (or base value if starting from base date)
-   - Fetches previous day's turnover for weighting
-
-2. **Weight Calculation**:
-   - Each instrument is weighted by the square root of its turnover
-   - Weights are normalized within each sector
-   - Weights are updated daily (at 16:00:00)
-
-3. **Index Calculation**:
-   - Sector returns are calculated as weighted average of constituent returns
-   - Index values are compounded: `new_price = old_price * (1 + sector_return)`
-   - Daily indices updated at 15:00:00
-   - Minute indices updated with each new data point
-
-4. **Output**:
-   - Results saved to database tables named `sector_{classification}_{frequency}`
-   - Each record contains: return (`ret`) and closing price (`close`)
-
 ## Data Flow
 
 ```
@@ -186,10 +141,6 @@ The project includes validation checks:
 - Begin and end dates must be valid trading days
 - Begin date must be after the index base date
 - Missing initialization data triggers warnings
-
-## License
-
-This project's license has not been specified. Please contact the author for licensing information.
 
 ## Author
 
