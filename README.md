@@ -9,6 +9,37 @@ A Python-based tool for calculating and managing sector indices for Chinese comm
   - **c1**: Alternative groupings (AUG, MTL, OIL, CHM, BLK, AGR)
   - **c2**: Detailed sector and thematic indices (STL, BDM, COL, NEG, PLC, POC, GRN, FED, SFT, OIL, BRD, CPI, PPI, IMT, RTS, ELT, MAC, HOU, INF, IND, LQC, SLC, OIC, CLC, and more)
 
+### C2 Sector Code Mapping
+
+| Sector Code | Chinese Name | Description |
+|-------------|--------------|-------------|
+| STL | 钢铁 | Steel |
+| BDM | 建材 | Building Materials |
+| COL | 煤炭 | Coal |
+| BLK | 黑链 | Black Chain |
+| FEA | 铁合金 | Ferroalloys |
+| NEG | 新能源 | New Energy |
+| PLC | 塑化链 | Plastic Chain |
+| POC | 聚酯链 | Polyester Chain |
+| GRN | 谷物 | Grains |
+| FED | 饲料 | Feed |
+| SFT | 软商品 | Soft Commodities |
+| OIL | 油脂链 | Oil & Fats Chain |
+| BRD | 养殖链 | Breeding Chain |
+| CPI | CPI | Consumer Price Index |
+| PPI | PPI | Producer Price Index |
+| IMT | 进口依赖度 | Import Dependency |
+| RTS | 利率影响 | Interest Rate Sensitivity |
+| ELT | 电力影响 | Electricity Impact |
+| MAC | 宏观 | Macro |
+| HOU | 房地产 | Real Estate |
+| INF | 基建 | Infrastructure |
+| IND | 工业品 | Industrial Products |
+| LQC | 液体化工 | Liquid Chemicals |
+| SLC | 固体化工 | Solid Chemicals |
+| OIC | 油化工 | Oil Chemicals |
+| CLC | 煤化工 | Coal Chemicals |
+
 - **Multiple Frequencies**: Calculate indices at both daily (`d`) and minute (`m`) frequencies
 
 - **Turnover-Weighted Calculation**: Uses square-root of turnover as weighting mechanism for constituent instruments
