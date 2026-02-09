@@ -9,6 +9,29 @@ A Python-based tool for calculating and managing sector indices for Chinese comm
   - **c1**: Alternative groupings (AUG, MTL, OIL, CHM, BLK, AGR)
   - **c2**: Detailed sector and thematic indices (STL, BDM, COL, NEG, PLC, POC, GRN, FED, SFT, OIL, BRD, CPI, PPI, IMT, RTS, ELT, MAC, HOU, INF, IND, LQC, SLC, OIC, CLC, and more)
 
+### C0 Sector Code Mapping
+
+| Sector Code | Description |
+|-------------|-------------|
+| BLK | Black (Coal & Steel) |
+| MTL | Metals |
+| PMT | Precious Metals |
+| ENG | Energy & Chemicals |
+| OIP | Oil Industry Products |
+| AGR | Agriculture |
+| FRG | Freight |
+
+### C1 Sector Code Mapping
+
+| Sector Code | Description |
+|-------------|-------------|
+| AUG | Gold & Silver (Au & Ag) |
+| MTL | Metals |
+| OIL | Oil Seeds |
+| CHM | Chemicals |
+| BLK | Black (Coal & Steel) |
+| AGR | Agriculture |
+
 ### C2 Sector Code Mapping
 
 | Sector Code | Chinese Name | Description |
