@@ -52,8 +52,13 @@ cd sector_index
 
 2. Install dependencies:
 ```bash
-pip install -r requirements.txt  # If available
-# Note: Requires access to qtools_sxzq and transmatrix libraries
+# Note: This project requires access to proprietary libraries
+# Install required packages:
+pip install pandas numpy pyyaml logbook
+
+# You will also need access to:
+# - qtools_sxzq (internal library for calendar, data access, and utilities)
+# - transmatrix (strategy framework and signal processing)
 ```
 
 3. Configure the project:
@@ -184,7 +189,7 @@ The project includes validation checks:
 
 ## License
 
-[Specify license here]
+This project's license has not been specified. Please contact the author for licensing information.
 
 ## Author
 
