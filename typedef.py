@@ -71,3 +71,14 @@ class CCfg:
     path_calendar: str
     index_base: CCfgIndexBase
     classifications: TClassifications
+
+    def __post_init__(self):
+        seen: set[str] = set()
+        for cls_name, clsf in self.classifications.items():
+            for sector in clsf.sectors:
+                if sector in seen:
+                    raise ValueError(
+                        f"Duplicate sector id '{sector}' found in classification '{cls_name}'; "
+                        f"sector ids must be unique across all classifications."
+                    )
+                seen.add(sector)

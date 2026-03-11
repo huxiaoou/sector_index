@@ -6,8 +6,8 @@ A Python-based tool for calculating and managing sector indices for Chinese comm
 
 - **Multiple Classification Schemes**: Supports three classification levels (c0, c1, c2) with various sector groupings:
   - **c0**: Basic sectors (BLK, MTL, PMT, ENG, OIP, AGR, FRG)
-  - **c1**: Alternative groupings (AUG, MTL, OIL, CHM, BLK, AGR)
-  - **c2**: Detailed sector and thematic indices (STL, BDM, COL, NEG, PLC, POC, GRN, FED, SFT, OIL, BRD, CPI, PPI, IMT, RTS, ELT, MAC, HOU, INF, IND, LQC, SLC, OIC, CLC, and more)
+  - **c1**: Alternative groupings (AUG, BMTL, OIL, CHM, BLKX, SAGR)
+  - **c2**: Detailed sector and thematic indices (STL, BDM, COL, BLKC, NEG, PLC, POC, GRN, FED, SFT, OILC, BRD, CPI, PPI, IMT, RTS, ELT, MAC, HOU, INF, IND, LQC, SLC, OIC, CLC, and more)
 
 ### C0 Sector Code Mapping
 
@@ -26,11 +26,11 @@ A Python-based tool for calculating and managing sector indices for Chinese comm
 | Sector Code | Description |
 |-------------|-------------|
 | AUG | Gold & Silver (Au & Ag) |
-| MTL | Metals |
+| BMTL | Base Metals |
 | OIL | Oil Seeds |
 | CHM | Chemicals |
-| BLK | Black (Coal & Steel) |
-| AGR | Agriculture |
+| BLKX | Black Extended (Coal, Steel & Building Materials) |
+| SAGR | Soft Agriculture |
 
 ### C2 Sector Code Mapping
 
@@ -39,7 +39,7 @@ A Python-based tool for calculating and managing sector indices for Chinese comm
 | STL | 钢铁 | Steel |
 | BDM | 建材 | Building Materials |
 | COL | 煤炭 | Coal |
-| BLK | 黑链 | Black Chain |
+| BLKC | 黑链 | Black Chain |
 | FEA | 铁合金 | Ferroalloys |
 | NEG | 新能源 | New Energy |
 | PLC | 塑化链 | Plastic Chain |
@@ -47,7 +47,7 @@ A Python-based tool for calculating and managing sector indices for Chinese comm
 | GRN | 谷物 | Grains |
 | FED | 饲料 | Feed |
 | SFT | 软商品 | Soft Commodities |
-| OIL | 油脂链 | Oil & Fats Chain |
+| OILC | 油脂链 | Oil & Fats Chain |
 | BRD | 养殖链 | Breeding Chain |
 | CPI | CPI | Consumer Price Index |
 | PPI | PPI | Producer Price Index |

@@ -93,7 +93,7 @@ classification:
     AUG:
       - AU9999_SHFE
       - AG9999_SHFE
-    MTL:
+    BMTL:
       - CU9999_SHFE
       - AL9999_SHFE
       - PB9999_SHFE
@@ -123,7 +123,7 @@ classification:
       - PG9999_DCE
       - MA9999_CZCE
       - TA9999_CZCE
-    BLK:
+    BLKX:
       - RB9999_SHFE
       - HC9999_SHFE
       - I9999_DCE
@@ -135,7 +135,7 @@ classification:
       - FG9999_CZCE
       - SA9999_CZCE
       - UR9999_CZCE
-    AGR:
+    SAGR:
       - AP9999_CZCE
       - CF9999_CZCE
       - SR9999_CZCE
@@ -160,7 +160,7 @@ classification:
       - JM9999_DCE # 焦煤
       - J9999_DCE # 焦炭
       - ZC9999_CZCE # 动力煤
-    BLK: # 黑链
+    BLKC: # 黑链
       - JM9999_DCE # 焦煤
       - J9999_DCE # 焦炭
       - I9999_DCE # 铁矿石
@@ -204,7 +204,7 @@ classification:
       - CJ9999_CZCE # 红枣
       - AP9999_CZCE # 苹果
       - CY9999_CZCE # 棉纱
-    OIL: # 油脂链
+    OILC: # 油脂链
       - A9999_DCE # 豆一
       - B9999_DCE # 豆二
       - Y9999_DCE # 豆油
