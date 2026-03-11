@@ -51,12 +51,22 @@ class CSectorClassification:
             res = res.union(set(instruments))
         return sorted(list(res))
 
-    def get_save_data_desc(self, db_name: str, freq: TFreq) -> CDataDescriptor:
+    def get_data_desc_sec_idx(self, db_name: str, freq: TFreq) -> CDataDescriptor:
         return CDataDescriptor(
             db_name=db_name,
             table_name=f"sector_index_{self.comb_name(freq)}",
             codes=self.sectors,
             fields=["ret", "close"],
+            lag=20,
+            data_view_type="data3d",
+        )
+
+    def get_data_desc_sec_idx_wgt(self, db_name: str, instruments: list[str]) -> CDataDescriptor:
+        return CDataDescriptor(
+            db_name=db_name,
+            table_name=f"sector_index_{self.name}_weights",
+            codes=instruments,
+            fields=self.sectors,
             lag=20,
             data_view_type="data3d",
         )

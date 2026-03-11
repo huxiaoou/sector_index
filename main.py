@@ -27,6 +27,7 @@ if __name__ == "__main__":
     from qtools_sxzq.qwidgets import SFG
     from config import cfg, data_desc_pv, data_desc_pv1m
     from solutions.calculators import main_process_sector_index
+    from solutions.cal_weights import main_process_sector_index_weight
     from solutions.misc import get_init_price, get_init_amt, get_span
 
     StreamHandler(sys.stdout).push_application()
@@ -45,7 +46,8 @@ if __name__ == "__main__":
     data_desc_pv.codes = clsf.codes
     data_desc_pv1m.codes = clsf.codes
     data_desc_md = data_desc_pv if args.freq == "d" else data_desc_pv1m
-    data_desc_sec_idx = clsf.get_save_data_desc(cfg.dbs.user, args.freq)
+    data_desc_sec_idx = clsf.get_data_desc_sec_idx(cfg.dbs.user, args.freq)
+    data_desc_sec_idx_wgt = clsf.get_data_desc_sec_idx_wgt(cfg.dbs.user, clsf.codes)
 
     logger.info(f"Loading init price for {SFG(clsf.comb_name(args.freq))}")
     init_price = get_init_price(
@@ -72,3 +74,13 @@ if __name__ == "__main__":
         freq=args.freq,
     )
     logger.info(f"{SFG(clsf.comb_name(args.freq))} finishes")
+
+    logger.info(f"Calculation for {SFG(clsf.name + ' weights')}")
+    main_process_sector_index_weight(
+        span=span,
+        data_desc_amt=data_desc_pv,
+        data_desc_sec_idx_wgt=data_desc_sec_idx_wgt,
+        clsf=clsf,
+        init_amt=init_amt,
+    )
+    logger.info(f"{SFG(clsf.name + ' weights')}  finishes")
