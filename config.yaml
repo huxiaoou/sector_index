@@ -18,7 +18,7 @@ classification:
       - ZC9999_CZCE
       - SM9999_CZCE
       - SF9999_CZCE
-    BMT: # Base Metal
+    MTL:
       - CU9999_SHFE
       - BC9999_INE
       - AL9999_SHFE
@@ -67,7 +67,7 @@ classification:
       - LG9999_DCE
       - FB9999_DCE
       - OP9999_SHFE
-    GAP: # General Agriculture Product
+    AGR:
       - LH9999_DCE
       - JD9999_DCE
       - PK9999_CZCE
@@ -123,7 +123,7 @@ classification:
       - PG9999_DCE
       - MA9999_CZCE
       - TA9999_CZCE
-    BKX: # Black eXtended
+    BLK:
       - RB9999_SHFE
       - HC9999_SHFE
       - I9999_DCE
@@ -160,7 +160,7 @@ classification:
       - JM9999_DCE # 焦煤
       - J9999_DCE # 焦炭
       - ZC9999_CZCE # 动力煤
-    BKC: # 黑链
+    BLK: # 黑链
       - JM9999_DCE # 焦煤
       - J9999_DCE # 焦炭
       - I9999_DCE # 铁矿石
@@ -204,7 +204,7 @@ classification:
       - CJ9999_CZCE # 红枣
       - AP9999_CZCE # 苹果
       - CY9999_CZCE # 棉纱
-    OLC: # 油脂链
+    OIL: # 油脂链
       - A9999_DCE # 豆一
       - B9999_DCE # 豆二
       - Y9999_DCE # 豆油
