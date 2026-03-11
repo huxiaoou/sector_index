@@ -35,7 +35,7 @@ if __name__ == "__main__":
     from logbook import Logger, StreamHandler, set_datetime_format
     from qtools_sxzq.qwidgets import SFG
     from config import cfg, data_desc_pv, data_desc_pv1m
-    from solutions.calculators import main_process_sector_index
+    from solutions.cal_index import main_process_sector_index
     from solutions.cal_weights import main_process_sector_index_weight
     from solutions.misc import get_init_price, get_init_amt, get_span
 
