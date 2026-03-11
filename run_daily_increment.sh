@@ -12,5 +12,6 @@ fi
 echo "append_date = $append_date"
 
 cls="c2"
+python main.py $cls --bgn $append_date --weights
 python main.py $cls --bgn $append_date --freq d
 python main.py $cls --bgn $append_date --freq m
