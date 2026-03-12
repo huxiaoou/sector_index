@@ -4,7 +4,7 @@ udb=$(python -c $'import yaml\nwith open("config.yaml", "r") as f:_config = yaml
 echo "user_db=$udb"
 
 cls="c2"
-bgn="20180102"
+bgn="20120109"
 end="20260310"
 
 rm_tqdb $udb --table sector_index_${cls}_weights
