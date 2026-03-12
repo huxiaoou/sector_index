@@ -10,7 +10,7 @@ else
     read -p "Please input the end date, format = [YYYYMMDD]:" end_date
 fi
 echo "end_date = $end_date"
-bgn_date="20180102"
+bgn_date="20120109"
 
 
 cls="c2"
