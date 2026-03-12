@@ -78,9 +78,11 @@ sector_index/
 ├── main.py            # Entry point for index calculation
 ├── typedef.py         # Type definitions and data classes
 ├── solutions/
-│   ├── calculators.py # Core sector index calculation logic
+│   ├── cal_index.py   # Core sector index calculation logic
+│   ├── cal_weights.py # Sector index weight calculation logic
 │   └── misc.py        # Helper functions (init price, amount, span)
 ├── run_all.sh         # Script for full historical calculation
+├── run_by_crontab.sh  # Script for scheduled (crontab) daily updates
 ├── run_daily_increment.sh  # Script for daily updates
 └── run_test.sh        # Test script
 ```
@@ -126,23 +128,29 @@ The `config.yaml` file contains:
 The main script accepts the following arguments:
 
 ```bash
-python main.py <command> --freq <d|m> --bgn <YYYYMMDD> [--end <YYYYMMDD>]
+python main.py <command> --bgn <YYYYMMDD> [--end <YYYYMMDD>] [--freq <d|m>] [--weights]
 ```
 
 **Arguments**:
 - `command`: Classification name (e.g., `c0`, `c1`, `c2`)
-- `--freq`: Frequency (`d` for daily, `m` for minute)
 - `--bgn`: Begin date in format YYYYMMDD (must be a trading day)
 - `--end`: Optional end date in format YYYYMMDD (defaults to begin date if not specified)
+- `--freq`: Frequency (`d` for daily, `m` for minute); used when `--weights` is not provided
+- `--weights`: If set, calculates sector index weights instead of index values
 
 **Examples**:
 
-1. Calculate daily sector indices for c2 classification on a single date:
+1. Calculate sector index weights for c2 classification over a date range:
+```bash
+python main.py c2 --bgn 20240101 --end 20240131 --weights
+```
+
+2. Calculate daily sector indices for c2 classification on a single date:
 ```bash
 python main.py c2 --freq d --bgn 20240101
 ```
 
-2. Calculate minute-level sector indices for c0 classification over a date range:
+3. Calculate minute-level sector indices for c0 classification over a date range:
 ```bash
 python main.py c0 --freq m --bgn 20240101 --end 20240131
 ```
@@ -157,9 +165,9 @@ python main.py c0 --freq m --bgn 20240101 --end 20240131
 ```
 
 This script:
-- Removes existing data for the c2 classification
-- Recalculates indices from 20180102 to specified end date
-- Processes both daily and minute frequencies
+- Removes existing data for the c2 classification (weights, daily, and minute tables)
+- Recalculates weights and indices from 20180102 to specified end date
+- Processes weights first, then both daily and minute frequencies
 
 2. **Daily Incremental Update** (`run_daily_increment.sh`):
 ```bash
@@ -170,8 +178,12 @@ This script:
 
 This script:
 - Appends new data for the current date
-- Processes both daily and minute frequencies
+- Processes weights first, then both daily and minute frequencies
 - Does not remove existing data
+
+3. **Scheduled Update via Crontab** (`run_by_crontab.sh`):
+
+This script is designed to be triggered by crontab. It runs `run_daily_increment.sh --auto` automatically between 14:00 and 15:00 each day.
 
 ## Data Flow
 
@@ -182,11 +194,13 @@ Load initial prices and turnover
     ↓
 Calculate turnover-based weights
     ↓
+Save weights to sector_index_{classification}_weights table (--weights mode)
+    ↓
 Compute sector returns (weighted average)
     ↓
 Update sector index values
     ↓
-Save to sector_{classification}_{freq} table
+Save to sector_index_{classification}_{freq} table
 ```
 
 ## Validation
